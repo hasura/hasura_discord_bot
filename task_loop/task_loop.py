@@ -1,15 +1,23 @@
-import discord
 from utilities import *
 from constants import *
+import discord
 
 
 async def execute_task_loop(client: discord.Client):
+    """
+    This is the main task loop.
+    :param client: The discord client. (essentially a singleton)
+    :return: None
+    """
+    # Get all tasks
     result = await execute_graphql(GRAPHQL_URL,
                                    PROCESS_MESSAGES_GRAPHQL,
                                    {},
                                    GRAPHQL_HEADERS)
+    # If False result skip as this was a failure.
     if not result:
         return
+    # Collect the list of tasks
     all_tasks = result["data"]["update_message"]["returning"]
     for task in all_tasks:
         thread_id = task["thread_id"]
