@@ -7,6 +7,10 @@ from discord.ui import View, Select
 # It will be easier to understand if we give users a dropdown.
 async def command_collections(interaction: discord.Interaction.response,
                               _: discord.Client):
+    if not isinstance(interaction.channel, discord.Thread):
+        await interaction.response.send(embed=discord.Embed(title=UNAVAILABLE_COMMAND))
+        return
+
     result = await execute_graphql(
         GRAPHQL_URL,
         GET_DOCS_COLLECTION,

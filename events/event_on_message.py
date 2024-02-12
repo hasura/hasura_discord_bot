@@ -66,7 +66,7 @@ async def event_on_message(client: discord.Client, message: discord.Message):
                           variables,
                           GRAPHQL_HEADERS)
     if bot_mentioned:
-        # Send a message to the user so they know the bot is working on a response.
+        # Send a message to the user so that they know the bot is working on a response.
         await message.channel.send(
             embed=discord.Embed(
                 title=get_random_loading_message(),

@@ -1,9 +1,17 @@
-from constants import *
 from utilities import *
+from constants import *
 import discord
 
 
 async def event_handle_reaction(reaction: discord.RawReactionActionEvent, client: discord.Client, inc=1):
+    """
+    Event handle reaction, handles addition OR removal of reactions
+
+    :param reaction: The incoming reaction
+    :param client: The discord client. (Essentially a singleton)
+    :param inc:
+    :return:
+    """
     if reaction.user_id == client.user.id:
         return
 
@@ -48,14 +56,23 @@ async def event_handle_reaction(reaction: discord.RawReactionActionEvent, client
                                   GRAPHQL_HEADERS
                                   )
             controller = await channel.fetch_message(int(thread["thread_controller_id"]))
+            help_controller_message = HELP_CONTROLLER_MESSAGE.format(author=thread["author_id"],
+                                                                     bot=client.user.id,
+                                                                     github=GITHUB_LINK)
             if is_solved:
-                await controller.edit(embed=discord.Embed(title=CONTROLLER_TITLE,
-                                                          description=SOLVED_MESSAGE,
-                                                          color=discord.Color.gold()))
+                await controller.edit(embeds=[discord.Embed(title=CONTROLLER_TITLE,
+                                                            description=help_controller_message,
+                                                            color=discord.Color.gold()),
+                                              discord.Embed(title=SOLVED_MESSAGE,
+                                                            color=discord.Color.green()),
+                                              ])
             else:
-                await controller.edit(embed=discord.Embed(title=CONTROLLER_TITLE,
-                                                          description=UNSOLVED_MESSAGE,
-                                                          color=discord.Color.gold()))
+                await controller.edit(embeds=[discord.Embed(title=CONTROLLER_TITLE,
+                                                            description=help_controller_message,
+                                                            color=discord.Color.gold()),
+                                              discord.Embed(title=UNSOLVED_MESSAGE,
+                                                            color=discord.Color.yellow())
+                                              ])
     await execute_graphql(GRAPHQL_URL,
                           UPDATE_THREAD_VOTES,
                           {

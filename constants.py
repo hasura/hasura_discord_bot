@@ -6,10 +6,12 @@ load_dotenv()
 
 GUILD_ID = 407792526867693568
 CHANNELS = {
-    1204254980840628284: "docs_v3"  # This is a collection in Qdrant!
+    1205357708677480468: "v3",  # This is a collection in Qdrant!
+    1205630815690817536: "v2"
 }
 LOGGING_CHANNEL = 1204932258897854504
 MOD_ROLE = 407802647412736000
+BANNED = []  # NAUGHTY NAUGHTY! BAD USERS!
 
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
@@ -87,6 +89,24 @@ GET_THREAD_BY_CONTROLLER = """query GetThreadByControllerId($thread_controller_i
 }
 """
 
+GET_THREAD_FOR_COMMAND = """
+query ThreadById($thread_id: String = "") {
+  thread_by_pk(thread_id: $thread_id) {
+    thread_id
+    thread_controller_id
+    author_id
+    title
+    open
+    solved
+    solved_votes
+    failed_votes
+    collection
+    created_at
+    updated_at
+  }
+}
+"""
+
 GET_DOCS_COLLECTION = """
 query GET_COLLECTIONS_ENUM {
   COLLECTION_ENUM {
@@ -109,6 +129,7 @@ MARK_THREAD_SOLVED = """mutation MarkThreadSolved($thread_id: String = "", $solv
 }
 """
 
+GITHUB_LINK = "https://github.com/hasura/hasura_discord_show_hn"
 HELP_CONTROLLER_MESSAGE = """
 <@{author}> can vote on **this message** with a ✅ when this thread has been solved, by the bot or by a human!
 
@@ -130,13 +151,15 @@ This bot is supposed to be helpful! All output from this bot should be trusted a
 
 Please read and verify things with the linked documentation.
 
-The source code for this is here: TODO: GITHUB-LINK
+The source code for this is here: {github}
 
 For a list of available commands the bot can perform, type: ```/commands```
 """
 
 SOLVED_MESSAGE = "This post has been marked as solved!"
 UNSOLVED_MESSAGE = "Hmm... At one point this post was marked as solved, but it no longer is. Maybe this is out of date?"
+OPENED_MESSAGE = "This post has been re-opened."
+CLOSED_MESSAGE = "This post has been closed."
 
 LOADING_MESSAGES = [
     "🤖 Compiling the latest insights for you. 🔄 please wait a second... beep boop",
@@ -156,3 +179,41 @@ CONTROLLER_TITLE = "Help Bot Thread Information"
 RESPONSE_TITLE = "Help Response"
 RESPONSE_SOURCES_TITLE = "Help Response Sources"
 SEARCH_RESPONSE_EMBED_TITLE = "Search Results"
+ERROR_MESSAGE_TITLE = "Error"
+WRONG_CHANNEL_MESSAGE = "This command can only be used in the forum channels.\nAllowed Channels: "
+NO_PERMISSION_MESSAGE = "You do not have permission to do this on this thread."
+COMMANDS_MESSAGE = """
+These are all the commands you can use with this bot.
+
+`/hello`
+This is a health-check, it should respond with "Hello World!".
+
+`/collections`
+This will list the collections available to search. Searching a collection is similar to performing a Google search!
+
+`/search`
+The search command takes 2 required parameters and 1 optional parameter.
+
+* query: The query parameter is the search query, this is where you type your question
+    
+* collection: This is the document collection to search
+    
+* limit: This optional parameter defaults to 10, but can go up to 100 to return more or less results.
+
+
+`/solve`
+This can be used by a member of the staff to mark a question as being solved. The author of a thread can also vote with a ✅ on the question to mark it as solved.
+
+`/unsolve`
+This can be used by a member of the staff to mark a question as being unsolved. Sometimes answers might need updated.
+
+`/close`
+This can be used by a member of the staff to close a thread. Either to archive old threads, or for off-topic questions.
+
+`/open`
+This can be used by a member of the staff to re-open a closed thread. 
+
+`/status`
+This shows the status of the thread it is posted in.
+"""
+UNAVAILABLE_COMMAND = "This command can only be used in a forum thread."
