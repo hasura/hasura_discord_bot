@@ -1,5 +1,4 @@
-import aiohttp
-from typing import Any, Literal
+from typing import Literal
 import discord
 import asyncio
 import random
@@ -40,15 +39,6 @@ def split_content(content, max_length=4096):
         content = content[split_index:].strip()
 
     return parts
-
-
-async def execute_graphql(url, query, variables, headers) -> Any:
-    async with aiohttp.ClientSession() as session:
-        async with session.post(url, json={'query': query, 'variables': variables}, headers=headers) as response:
-            if response.status == 200:
-                return await response.json()  # Process the JSON response
-            else:
-                return False
 
 
 async def log(message: str, channel: int, client: discord.Client):

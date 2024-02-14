@@ -1,17 +1,21 @@
 from dotenv import load_dotenv
 import os
+import aiohttp
+from typing import Any
+import asyncio
+
+
+async def execute_graphql(url, query, variables, headers) -> Any:
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json={'query': query, 'variables': variables}, headers=headers) as response:
+            if response.status == 200:
+                return await response.json()  # Process the JSON response
+            else:
+                return False
+
 
 # Load environment variables
 load_dotenv()
-
-GUILD_ID = 407792526867693568
-CHANNELS = {
-    1205357708677480468: "v3",  # This is a collection in Qdrant!
-    1205630815690817536: "v2"
-}
-LOGGING_CHANNEL = 1204932258897854504
-MOD_ROLE = 407802647412736000
-BANNED = []  # NAUGHTY NAUGHTY! BAD USERS!
 
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 
@@ -25,6 +29,32 @@ GRAPHQL_HEADERS = {
     "Content-Type": "application/json",
     "x-hasura-admin-secret": GRAPHQL_ADMIN_SECRET
 }
+
+GET_CONFIG = """query Config($guild_id: bigint = "") {
+  configuration_by_pk(guild_id: $guild_id) {
+    guild_id
+    logging_channel_id
+    mod_role_id
+    banned_user_ids
+    guild_forums {
+      forum_channel_id
+      forum_collection
+    }
+  }
+}
+"""
+
+GUILD_ID = int(os.getenv("GUILD_ID"))
+guild_config = asyncio.run(execute_graphql(url=GRAPHQL_URL,
+                                           headers=GRAPHQL_HEADERS,
+                                           query=GET_CONFIG,
+                                           variables={"guild_id": GUILD_ID},
+                                           ))["data"]["configuration_by_pk"]
+
+LOGGING_CHANNEL = guild_config['logging_channel_id']
+MOD_ROLE = guild_config['mod_role_id']
+BANNED = guild_config['banned_user_ids']
+CHANNELS = {forum['forum_channel_id']: forum['forum_collection'] for forum in guild_config['guild_forums']}
 
 INSERT_THREAD_GRAPHQL = """mutation InsertThread($object: thread_insert_input!) {
   insert_thread_one(object: $object) {
@@ -162,15 +192,15 @@ OPENED_MESSAGE = "This post has been re-opened."
 CLOSED_MESSAGE = "This post has been closed."
 
 LOADING_MESSAGES = [
-    "🤖 Compiling the latest insights for you. 🔄 please wait a second... beep boop",
-    "🤖 Tuning in to the data frequencies. 📡 please wait a second... beep boop",
-    "🤖 Gathering bytes and bits. 🧲 please wait a second... beep boop",
-    "🤖 Calibrating response parameters. 🎛️ please wait a second... beep boop",
-    "🤖 Sifting through digital archives. 🗄️ please wait a second... beep boop",
-    "🤖 Engaging cognitive circuits. 💡please wait a second... beep boop",
-    "🤖 Deciphering the code matrix. 🧬 please wait a second... beep boop",
-    "🤖 Navigating through the information maze. 🌐 please wait a second... beep boop",
-    "🤖 Assembling the pieces of the puzzle. 🧩 please wait a second... beep boop"
+    "🤖 Compiling the latest insights for you. 🔄 this might take a couple of minutes... beep boop",
+    "🤖 Tuning in to the data frequencies. 📡 this might take a couple of minutes... beep boop",
+    "🤖 Gathering bytes and bits. 🧲 this might take a couple of minutes... beep boop",
+    "🤖 Calibrating response parameters. 🎛️ this might take a couple of minutes... beep boop",
+    "🤖 Sifting through digital archives. 🗄️ this might take a couple of minutes... beep boop",
+    "🤖 Engaging cognitive circuits. 💡 this might take a couple of minutes... beep boop",
+    "🤖 Deciphering the code matrix. 🧬 this might take a couple of minutes... beep boop",
+    "🤖 Navigating through the information maze. 🌐 this might take a couple of minutes... beep boop",
+    "🤖 Assembling the pieces of the puzzle. 🧩 this might take a couple of minutes... beep boop"
 ]
 
 POSITIVE_EMOJI = "✅"
