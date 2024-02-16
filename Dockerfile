@@ -14,7 +14,6 @@ COPY constants.py .
 COPY utilities.py .
 COPY task_loop/ task_loop/
 COPY events/ events/
-COPY crons/ crons/
 COPY commands/ commands/
 
 # Set the environment variable to ensure that Python outputs everything to the terminal

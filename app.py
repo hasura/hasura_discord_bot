@@ -196,6 +196,15 @@ async def on_message(message: Message):
     return await event_on_message(client, message)
 
 
+# TODO: Forward edits to the database
+# @client.event
+# async def on_message_edit(before: Message, after: Message):
+#     print(before.id)
+#     print(after.id)
+#     print(before.content)
+#     print(after.content)
+
+
 @client.event
 async def on_raw_reaction_add(reaction: discord.RawReactionActionEvent):
     """
