@@ -57,8 +57,7 @@ async def event_handle_reaction(reaction: discord.RawReactionActionEvent, client
                                   )
             controller = await channel.fetch_message(int(thread["thread_controller_id"]))
             help_controller_message = HELP_CONTROLLER_MESSAGE.format(author=thread["author_id"],
-                                                                     bot=client.user.id,
-                                                                     github=GITHUB_LINK)
+                                                                     bot=client.user.id)
             if is_solved:
                 await controller.edit(embeds=[discord.Embed(title=CONTROLLER_TITLE,
                                                             description=help_controller_message,

@@ -11,6 +11,7 @@ from commands.unsolve import command_unsolve
 from commands.open import command_open
 from commands.close import command_close
 from commands.status import command_status
+from commands.info import command_info
 from events.event_on_message import event_on_message
 from events.event_handle_reaction import event_handle_reaction
 from task_loop.task_loop import execute_task_loop
@@ -154,6 +155,19 @@ async def _update(interaction: discord.Interaction.response):
     await interaction.response.defer()
     await tree.sync(guild=discord.Object(id=GUILD_ID))
     return await interaction.followup.send(embed=discord.Embed(title="The commands have been synced."))
+
+
+@tree.command(name="info",
+              description="Displays some usage info about the bot.",
+              guild=discord.Object(id=GUILD_ID))
+async def _info(interaction: discord.Interaction.response):
+    """
+    Displays usage info about the bot.
+
+    :param interaction:
+    :return:
+    """
+    return await command_info(interaction)
 
 
 @client.event

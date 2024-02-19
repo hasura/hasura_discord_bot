@@ -27,6 +27,8 @@ async def execute_task_loop(client: discord.Client):
         thread_controller_id = thread["thread_controller_id"]
         thread_author_id = thread["author_id"]
         channel = client.get_channel(int(thread_id))
+        if channel is None:
+            continue
         controller = await channel.fetch_message(int(thread_controller_id))
         await send_long_message_in_embeds(channel=channel,
                                           title=RESPONSE_TITLE,
@@ -36,8 +38,7 @@ async def execute_task_loop(client: discord.Client):
                                           message=sources,
                                           color=discord.Color.green())
         help_controller_message = HELP_CONTROLLER_MESSAGE.format(author=thread_author_id,
-                                                                 bot=client.user.id,
-                                                                 github=GITHUB_LINK)
+                                                                 bot=client.user.id)
         controller = await controller.edit(embed=discord.Embed(title=CONTROLLER_TITLE,
                                                                description=help_controller_message,
                                                                color=discord.Color.gold()))

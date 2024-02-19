@@ -1,8 +1,8 @@
 from typing import Literal
 import discord
-import asyncio
 import random
 from constants import *
+import asyncio
 
 
 def get_random_loading_message():
@@ -184,9 +184,7 @@ async def handle_toggle(interaction: discord.Interaction.response,
     controller = await interaction.channel.fetch_message(int(thread["thread_controller_id"]))
     help_controller_message = HELP_CONTROLLER_MESSAGE.format(
         author=thread["author_id"],
-        bot=interaction.client.user.id,
-        github=GITHUB_LINK
-    )
+        bot=interaction.client.user.id)
     embeds = [
         discord.Embed(title=CONTROLLER_TITLE,
                       description=help_controller_message,

@@ -166,24 +166,6 @@ HELP_CONTROLLER_MESSAGE = """
 Anyone can vote on **this message** with a ❌ if the GPT bot is unhelpful or hallucinating answers.
 
 To continue speaking with the bot, respond in this thread and mention <@{bot}>
-
-**Self-Improving Bot Disclaimer** 
-These threads will be used to fine-tune the bot periodically! This is an experiment. 👨‍🔬💻🧪
-If you troll the bot, or don't converse constructively to find helpful solutions, it won't learn the answers!
-If you do teach it, it'll get wicked smart folks. Be the help you want to receive! The bot learns from how we behave.
-
-Use of this bot is a privilege. It is transparently powered by GPT-4 with RAG performed via Qdrant on our documentation.
-
-Please don't abuse this privilege or we might make it an internal tool only. 
-Abusers will be banned from using the bot and publicly shamed. 🤡
-
-This bot is supposed to be helpful! All output from this bot should be trusted at your own risk.
-
-Please read and verify things with the linked documentation.
-
-The source code for this is here: {github}
-
-For a list of available commands the bot can perform, type: ```/commands```
 """
 
 SOLVED_MESSAGE = "This post has been marked as solved!"
@@ -206,6 +188,7 @@ LOADING_MESSAGES = [
 POSITIVE_EMOJI = "✅"
 NEGATIVE_EMOJI = "❌"
 CONTROLLER_TITLE = "Help Bot Thread Information"
+INFO_TITLE = "Bot Info"
 RESPONSE_TITLE = "Help Response"
 RESPONSE_SOURCES_TITLE = "Help Response Sources"
 SEARCH_RESPONSE_EMBED_TITLE = "Search Results"
@@ -246,4 +229,21 @@ This can be used by a member of the staff to re-open a closed thread.
 `/status`
 This shows the status of the thread it is posted in.
 """
+INFO_MESSAGE = """**Self-Improving Bot Disclaimer** 
+These threads will be used to fine-tune the bot periodically! This is an experiment. 👨‍🔬💻🧪
+If you troll the bot, or don't converse constructively to find helpful solutions, it won't learn the answers!
+If you do teach it, it'll get wicked smart folks. Be the help you want to receive! The bot learns from how we behave.
+
+Use of this bot is a privilege. It is transparently powered by GPT-4 with RAG performed via Qdrant on our documentation.
+
+Please don't abuse this privilege or we might make it an internal tool only. 
+Abusers will be banned from using the bot and publicly shamed. 🤡
+
+This bot is supposed to be helpful! All output from this bot should be trusted at your own risk.
+
+Please read and verify things with the linked documentation.
+
+The source code for this bot can be found here: {github}
+
+For a list of available commands the bot can perform, type: ```/commands```"""
 UNAVAILABLE_COMMAND = "This command can only be used in a forum thread."
