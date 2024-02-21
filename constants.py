@@ -25,6 +25,8 @@ SEARCH_ENDPOINT_API_KEY = os.getenv('SEARCH_ENDPOINT_API_KEY')
 
 GRAPHQL_URL = os.getenv('GRAPHQL_URL')
 GRAPHQL_ADMIN_SECRET = os.getenv('GRAPHQL_ADMIN_SECRET')
+SYNC_ON_STARTUP = int(os.getenv("SYNC_ON_STARTUP", False))
+
 GRAPHQL_HEADERS = {
     "Content-Type": "application/json",
     "x-hasura-admin-secret": GRAPHQL_ADMIN_SECRET

@@ -177,6 +177,8 @@ async def on_ready():
     :return:
     """
     await log(f'The bot has logged in as {client.user}', LOGGING_CHANNEL, client)
+    if SYNC_ON_STARTUP:
+        await tree.sync(guild=discord.Object(id=GUILD_ID))
     if not task_loop.is_running():
         task_loop.start()
 
