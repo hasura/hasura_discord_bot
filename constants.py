@@ -161,13 +161,16 @@ MARK_THREAD_SOLVED = """mutation MarkThreadSolved($thread_id: String = "", $solv
 }
 """
 
-GITHUB_LINK = "https://github.com/hasura/hasura_discord_show_hn"
+GITHUB_LINK = "https://github.com/hasura/hasura-discord-docs-bot"
+DISCLAIMER_LINK = "https://discord.com/channels/407792526867693568/1212132679089262672/1212132679089262672"
 HELP_CONTROLLER_MESSAGE = """
 <@{author}> can vote on **this message** with a ✅ when this thread has been solved, by the bot or by a human!
 
 Anyone can vote on **this message** with a ❌ if the GPT bot is unhelpful or hallucinating answers.
 
 To continue speaking with the bot, respond in this thread and mention <@{bot}>
+
+Use of the chatbot is at users own risk and subject to [this Disclaimer]({disclaimer}).
 """
 
 SOLVED_MESSAGE = "This post has been marked as solved!"

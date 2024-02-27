@@ -38,7 +38,8 @@ async def execute_task_loop(client: discord.Client):
                                           message=sources,
                                           color=discord.Color.green())
         help_controller_message = HELP_CONTROLLER_MESSAGE.format(author=thread_author_id,
-                                                                 bot=client.user.id)
+                                                                 bot=client.user.id,
+                                                                 disclaimer=DISCLAIMER_LINK)
         controller = await controller.edit(embed=discord.Embed(title=CONTROLLER_TITLE,
                                                                description=help_controller_message,
                                                                color=discord.Color.gold()))
